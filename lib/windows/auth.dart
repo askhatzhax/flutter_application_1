@@ -5,7 +5,6 @@ import 'package:flutter_application_1/windows/landing.dart';
 
 class AuthorizationPage extends StatefulWidget {
   const AuthorizationPage({super.key});
-
   @override
   State<AuthorizationPage> createState() => _AuthorizationPageState();
 }
@@ -13,22 +12,24 @@ class AuthorizationPage extends StatefulWidget {
 class _AuthorizationPageState extends State<AuthorizationPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
+  bool showLogin = true;
+  //String _email="";
+  //String _password:
   @override
   Widget build(BuildContext context) {
     Widget _logo() {
       return Padding(
-        padding: EdgeInsets.only(top: 100, left: 20),
+        padding: EdgeInsets.only(top: 100, left: 20, right: 20),
         child: Container(
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Вход',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold),
-            ),
+          //child: Align(
+          alignment: Alignment(0, 0.5),
+          child: Text(
+            'Вход',
+            style: TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontSize: 34,
+                fontWeight: FontWeight.bold),
+            //),
           ),
         ),
       );
@@ -43,7 +44,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
               Text(
                 hint,
                 style: TextStyle(
-                  color: Color.fromARGB(255, 94, 89, 89),
+                  color: Color.fromARGB(255, 64, 63, 63),
                   fontSize: 16,
                 ),
               ),
@@ -51,11 +52,11 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                   controller: controller,
                   obscureText: obscure,
                   style: TextStyle(
-                      fontSize: 20, color: Color.fromARGB(255, 143, 139, 139)),
+                      fontSize: 20, color: Color.fromARGB(255, 62, 61, 61)),
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color.fromARGB(255, 150, 0, 250)),
+                          BorderSide(color: Color.fromARGB(255, 236, 173, 13)),
                     ),
                     /*hintStyle: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       return RaisedButton(
         splashColor: Theme.of(context).primaryColor,
         highlightColor: Theme.of(context).primaryColor,
-        color: Color.fromARGB(255, 191, 123, 255),
+        color: Color.fromARGB(255, 143, 139, 146),
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(30.0)),
         child: Text(
@@ -100,9 +101,9 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
       );
     }
 
-    Widget _form(String label, void func()) {
+    Widget _form(String label, String label2, void func(), bool buliik) {
       return Container(
-        width: 327,
+        width: 300,
         height: 348,
         decoration: BoxDecoration(
             color: Colors.white,
@@ -133,7 +134,20 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: _button(label, func),
-                ))
+                )),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 0),
+              child: GestureDetector(
+                  child: Text(label2,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 246, 149, 22))),
+                  onTap: () {
+                    setState(() {
+                      showLogin = buliik;
+                    });
+                  }),
+            ),
           ],
         ),
       );
@@ -149,13 +163,31 @@ class _AuthorizationPageState extends State<AuthorizationPage> {
     }
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 248, 100, 100),
-      body: Column(
-        children: <Widget>[
-          
-          _logo(),
-          _form('Войти', _loginUser),
-        ],
+      backgroundColor: Color.fromARGB(255, 137, 50, 50),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/images/pic1.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            _logo(),
+            (showLogin
+                ? Column(
+                    children: <Widget>[
+                      _form('Войти', 'Регистрация', _loginUser, false)
+                    ],
+                  )
+                : Column(
+                    children: <Widget>[
+                      _form('Регистрация', 'Войти', _loginUser, true),
+                    ],
+                  )),
+            //_form('Войти', _loginUser),
+          ], //widgetmain
+        ),
       ),
     );
   }
